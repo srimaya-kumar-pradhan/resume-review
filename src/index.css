@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * ═══════════════════════════════════════════════════════════
+ * Smart Career Assistant — Global Styles
+ * ═══════════════════════════════════════════════════════════
+ * Design system tokens are defined in tailwind.config.js.
+ * This file contains only base resets and custom utilities
+ * that cannot be expressed as Tailwind classes.
+ */
+
+@layer base {
+  /* Smooth scrolling for the entire app */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Remove default focus outlines, add accessible custom ones */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary ring-0;
+  }
+
+  /* Custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/20 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/40;
+  }
+}
+
+@layer components {
+  /* Glass-morphism card effect used in premium UI elements */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+
+  /* Gradient text utility for headings */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
+  }
+
+  /* Shimmer animation for skeleton screens */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      theme('colors.background') 25%,
+      theme('colors.primary.50') 50%,
+      theme('colors.background') 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
