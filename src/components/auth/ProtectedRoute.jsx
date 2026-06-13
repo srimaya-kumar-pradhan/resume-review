@@ -1,25 +1,28 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useProfile } from '../../hooks/useProfile';
 
 /**
- * Route guard that protects child routes from unauthenticated access.
+ * Route guard that protects child routes from unauthenticated access
+ * and redirects users with incomplete profiles to /profile/setup.
  *
  * Behavior:
- * - If auth is loading → shows a full-screen spinner
- * - If user is null   → redirects to /login
- * - If user exists    → renders children
- *
- * Profile-completeness check is added in Phase 4 via ProfileContext.
+ * - If auth is loading OR profile is loading → full-screen spinner
+ * - If user is null → redirect to /login
+ * - If profile is not complete AND current path is not /profile/setup → redirect to /profile/setup
+ * - Otherwise → render children
  *
  * @param {object} props
  * @param {React.ReactNode} props.children - Protected route content
  * @returns {JSX.Element}
  */
 export default function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isProfileComplete, loading: profileLoading } = useProfile();
+  const location = useLocation();
 
-  /* Show a loading screen while Firebase checks auth state */
-  if (loading) {
+  /* Show spinner while checking auth or fetching profile */
+  if (authLoading || (user && profileLoading)) {
     return (
       <div
         className="min-h-screen bg-background flex items-center justify-center"
@@ -40,10 +43,12 @@ export default function ProtectedRoute({ children }) {
   }
 
   /*
-   * TODO (Phase 4): Check profile completeness here.
-   * If user.profileComplete is false, redirect to /profile/setup.
-   * This will be wired once ProfileContext is built.
+   * Redirect users with incomplete profiles to /profile/setup.
+   * Skip this check if we're already on the setup page to avoid infinite loop.
    */
+  if (!isProfileComplete && location.pathname !== '/profile/setup') {
+    return <Navigate to="/profile/setup" replace />;
+  }
 
   return children;
 }
