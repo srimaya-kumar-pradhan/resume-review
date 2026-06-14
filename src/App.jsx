@@ -4,6 +4,7 @@ import { ProfileProvider } from './contexts/ProfileContext';
 import LoginPage from './components/auth/LoginPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import ProfileSetup from './components/profile/ProfileSetup';
+import PageWrapper from './components/layout/PageWrapper';
 
 /**
  * Root application component.
@@ -41,31 +42,41 @@ function App() {
             {/* Protected routes — require auth + complete profile */}
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <PlaceholderPage name="Dashboard" phase={10} />
+                <PageWrapper title="Dashboard" subtitle="Overview">
+                  <PlaceholderContent name="Dashboard" phase={10} />
+                </PageWrapper>
               </ProtectedRoute>
             } />
 
             <Route path="/advisor" element={
               <ProtectedRoute>
-                <PlaceholderPage name="Career Advisor" phase={6} />
+                <PageWrapper title="Career Advisor" subtitle="AI-Powered Guidance">
+                  <PlaceholderContent name="Career Advisor" phase={6} />
+                </PageWrapper>
               </ProtectedRoute>
             } />
 
             <Route path="/skill-gap" element={
               <ProtectedRoute>
-                <PlaceholderPage name="Skill Gap Analysis" phase={7} />
+                <PageWrapper title="Skill Analysis" subtitle="Gap Assessment">
+                  <PlaceholderContent name="Skill Gap Analysis" phase={7} />
+                </PageWrapper>
               </ProtectedRoute>
             } />
 
             <Route path="/projects" element={
               <ProtectedRoute>
-                <PlaceholderPage name="Project Generator" phase={8} />
+                <PageWrapper title="Projects" subtitle="AI Generator">
+                  <PlaceholderContent name="Project Generator" phase={8} />
+                </PageWrapper>
               </ProtectedRoute>
             } />
 
             <Route path="/resume" element={
               <ProtectedRoute>
-                <PlaceholderPage name="Resume Review" phase={9} />
+                <PageWrapper title="Resume Review" subtitle="AI Analysis">
+                  <PlaceholderContent name="Resume Review" phase={9} />
+                </PageWrapper>
               </ProtectedRoute>
             } />
 
@@ -79,23 +90,29 @@ function App() {
 }
 
 /**
- * Temporary placeholder for routes not yet implemented.
- * Replaced with actual components in their respective phases.
+ * Temporary placeholder content for routes not yet implemented.
+ * Now renders inside PageWrapper layout (not full-screen).
  *
  * @param {object} props
  * @param {string} props.name - Feature name
  * @param {number} props.phase - Phase number
  * @returns {JSX.Element}
  */
-function PlaceholderPage({ name, phase }) {
+function PlaceholderContent({ name, phase }) {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-[60vh]">
       <div className="text-center p-8">
-        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">🚧</span>
+        <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-fade-in">
+          <span className="text-3xl">🚧</span>
         </div>
-        <h1 className="text-2xl font-semibold text-text mb-2">{name}</h1>
-        <p className="text-text-light">Coming in Phase {phase}</p>
+        <h2 className="text-2xl font-bold text-text mb-2">{name}</h2>
+        <p className="text-text-light mb-4">This feature is coming in Phase {phase}</p>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 text-primary text-sm font-medium rounded-pill">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          Under Development
+        </div>
       </div>
     </div>
   );
