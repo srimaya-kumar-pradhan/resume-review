@@ -4,6 +4,7 @@ import { ProfileProvider } from './contexts/ProfileContext';
 import LoginPage from './components/auth/LoginPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import ProfileSetup from './components/profile/ProfileSetup';
+import CareerAdvisor from './components/advisor/CareerAdvisor';
 import PageWrapper from './components/layout/PageWrapper';
 
 /**
@@ -50,9 +51,7 @@ function App() {
 
             <Route path="/advisor" element={
               <ProtectedRoute>
-                <PageWrapper title="Career Advisor" subtitle="AI-Powered Guidance">
-                  <PlaceholderContent name="Career Advisor" phase={6} />
-                </PageWrapper>
+                <CareerAdvisor />
               </ProtectedRoute>
             } />
 
