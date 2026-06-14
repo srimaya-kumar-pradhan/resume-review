@@ -5,6 +5,9 @@ import LoginPage from './components/auth/LoginPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import ProfileSetup from './components/profile/ProfileSetup';
 import CareerAdvisor from './components/advisor/CareerAdvisor';
+import SkillGapAnalysis from './components/skill-gap/SkillGapAnalysis';
+import ProjectGenerator from './components/projects/ProjectGenerator';
+import ResumeReview from './components/resume/ResumeReview';
 import PageWrapper from './components/layout/PageWrapper';
 
 /**
@@ -13,16 +16,12 @@ import PageWrapper from './components/layout/PageWrapper';
  *
  * Route structure:
  * - /login         → Google Sign-In page (public)
- * - /profile/setup → Profile wizard (auth required, no profile check)
- * - /dashboard     → Main dashboard (auth + profile required)
- * - /advisor       → Career Advisor AI feature
- * - /skill-gap     → Skill Gap Analysis AI feature
- * - /projects      → Project Generator AI feature
- * - /resume        → Resume Review AI feature
- *
- * ProtectedRoute handles:
- * 1. Redirect to /login if not authenticated
- * 2. Redirect to /profile/setup if profile incomplete
+ * - /profile/setup → Profile wizard (auth required)
+ * - /dashboard     → Main dashboard (Phase 10)
+ * - /advisor       → Career Advisor AI chat
+ * - /skill-gap     → Skill Gap Analysis
+ * - /projects      → Project Generator
+ * - /resume        → Resume Review
  */
 function App() {
   return (
@@ -33,14 +32,14 @@ function App() {
             {/* Public route */}
             <Route path="/login" element={<LoginPage />} />
 
-            {/* Profile setup — auth required but no profile check */}
+            {/* Profile setup */}
             <Route path="/profile/setup" element={
               <ProtectedRoute>
                 <ProfileSetup />
               </ProtectedRoute>
             } />
 
-            {/* Protected routes — require auth + complete profile */}
+            {/* Dashboard — placeholder until Phase 10 */}
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <PageWrapper title="Dashboard" subtitle="Overview">
@@ -49,6 +48,7 @@ function App() {
               </ProtectedRoute>
             } />
 
+            {/* AI Features */}
             <Route path="/advisor" element={
               <ProtectedRoute>
                 <CareerAdvisor />
@@ -57,25 +57,19 @@ function App() {
 
             <Route path="/skill-gap" element={
               <ProtectedRoute>
-                <PageWrapper title="Skill Analysis" subtitle="Gap Assessment">
-                  <PlaceholderContent name="Skill Gap Analysis" phase={7} />
-                </PageWrapper>
+                <SkillGapAnalysis />
               </ProtectedRoute>
             } />
 
             <Route path="/projects" element={
               <ProtectedRoute>
-                <PageWrapper title="Projects" subtitle="AI Generator">
-                  <PlaceholderContent name="Project Generator" phase={8} />
-                </PageWrapper>
+                <ProjectGenerator />
               </ProtectedRoute>
             } />
 
             <Route path="/resume" element={
               <ProtectedRoute>
-                <PageWrapper title="Resume Review" subtitle="AI Analysis">
-                  <PlaceholderContent name="Resume Review" phase={9} />
-                </PageWrapper>
+                <ResumeReview />
               </ProtectedRoute>
             } />
 
@@ -89,13 +83,7 @@ function App() {
 }
 
 /**
- * Temporary placeholder content for routes not yet implemented.
- * Now renders inside PageWrapper layout (not full-screen).
- *
- * @param {object} props
- * @param {string} props.name - Feature name
- * @param {number} props.phase - Phase number
- * @returns {JSX.Element}
+ * Temporary placeholder content for the Dashboard (Phase 10).
  */
 function PlaceholderContent({ name, phase }) {
   return (
